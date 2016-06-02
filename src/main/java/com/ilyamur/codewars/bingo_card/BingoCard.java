@@ -15,7 +15,6 @@ public class BingoCard {
     private static Random RANDOM = new Random();
 
     public static String[] getCard() {
-        RANDOM = new Random(1);
         Map<Integer, Integer> misfits = new HashMap<>();
         char[] letters = new char[] {'B', 'I', 'N', 'G', 'O'};
         ArrayList<String> objects = new ArrayList<>(24);
@@ -25,11 +24,8 @@ public class BingoCard {
             int misfitPosition = 15 * (col + 1);
             for (int row = 0; row < rowCount; row++) {
                 int numPosition = 15 * col + 1 + RANDOM.nextInt(15 - row);
-                Integer misfitValue = misfits.get(numPosition);
-                LOG.info("{} -> {}", numPosition, misfitValue);
-                Integer numValue = (misfitValue != null) ? misfitValue : numPosition;
-                LOG.info("put {} to {}", misfitPosition, numPosition);
-                misfits.put(numPosition, misfitPosition);
+                Integer numValue = getNumValue(misfits, numPosition);
+                misfits.put(numPosition,  getNumValue(misfits, misfitPosition));
                 LOG.info("add {}", numValue);
                 objects.add(Character.toString(letter) + numValue);
                 if (numValue == 58) {
@@ -39,5 +35,10 @@ public class BingoCard {
             }
         }
         return objects.toArray(new String[24]);
+    }
+
+    private static Integer getNumValue(Map<Integer, Integer> misfits, int numPosition) {
+        Integer misfitValue = misfits.get(numPosition);
+        return (misfitValue != null) ? misfitValue : numPosition;
     }
 }
