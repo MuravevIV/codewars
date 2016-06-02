@@ -5,10 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 public class BingoCard {
 
@@ -18,7 +16,7 @@ public class BingoCard {
 
     public static String[] getCard() {
         RANDOM = new Random(1);
-        Set<Integer> misfits = new HashSet<>();
+        Map<Integer, Integer> misfits = new HashMap<>();
         char[] letters = new char[] {'B', 'I', 'N', 'G', 'O'};
         ArrayList<String> objects = new ArrayList<>(24);
         for (int col = 0; col < 5; col++) {
@@ -27,16 +25,16 @@ public class BingoCard {
             int misfitPosition = 15 * (col + 1);
             for (int row = 0; row < rowCount; row++) {
                 int numPosition = 15 * col + 1 + RANDOM.nextInt(15 - row);
-                boolean isMisfits = misfits.contains(numPosition);
-                LOG.info("{} -> {}", numPosition, isMisfits);
-                Integer numValue = isMisfits ? misfitPosition : numPosition;
-                if (numValue == 26) {
-                    System.out.println(numValue);
-                }
-                LOG.info("mark {} as mistfit", numPosition);
-                misfits.add(numPosition);
+                Integer misfitValue = misfits.get(numPosition);
+                LOG.info("{} -> {}", numPosition, misfitValue);
+                Integer numValue = (misfitValue != null) ? misfitValue : numPosition;
+                LOG.info("put {} to {}", misfitPosition, numPosition);
+                misfits.put(numPosition, misfitPosition);
                 LOG.info("add {}", numValue);
                 objects.add(Character.toString(letter) + numValue);
+                if (numValue == 58) {
+                    System.out.println(numValue);
+                }
                 misfitPosition--;
             }
         }
