@@ -10,10 +10,10 @@ public class Accumul {
                 sb.append('-');
             }
             String ch = Character.toString(chars[i]);
-            String upperCaseCh = ch.toUpperCase();
+            sb.append(ch.toUpperCase());
             String lowerCaseCh = ch.toLowerCase();
-            for (int j = 0; j < i + 1; j++) {
-                sb.append((j == 0) ? upperCaseCh : lowerCaseCh);
+            for (int j = 1; j < i + 1; j++) {
+                sb.append(lowerCaseCh);
             }
         }
         return sb.toString();
