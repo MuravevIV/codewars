@@ -9,14 +9,11 @@ public class Accumul {
             if (i > 0) {
                 sb.append('-');
             }
-            String rs = new String(new char[i + 1]).replace("\0", Character.toString(chars[i]));
-            sb.append(capitalize(rs));
+            String ch = Character.toString(chars[i]);
+            for (int j = 0; j < i + 1; j++) {
+                sb.append((j == 0) ? ch.toUpperCase() : ch.toLowerCase());
+            }
         }
         return sb.toString();
-    }
-
-    private static String capitalize(String s) {
-        String lcs = s.toLowerCase();
-        return lcs.substring(0, 1).toUpperCase() + lcs.substring(1);
     }
 }
